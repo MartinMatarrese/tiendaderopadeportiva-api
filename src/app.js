@@ -16,6 +16,7 @@ import swaggerUI from "swagger-ui-express";
 import { info } from "./docs/info.js";
 import chatRouter from "./routes/chat.router.js";
 import { corsMiddleware } from "./config/corsConfig.js";
+import { timeStamp } from "console";
 
 
 const app = express();
@@ -79,5 +80,13 @@ app.get("/", (req, res) => {
 });
 
 app.use(errorHandler);
+
+app.get("/api/health", (req, res) => {
+    res.json({
+        status: "OK",
+        message: "API Tienda de Ropa Deportiva",
+        timeStamp: new Date().toISOString()
+    });
+});
 
 export default app;
