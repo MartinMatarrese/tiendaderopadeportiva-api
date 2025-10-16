@@ -16,7 +16,7 @@ class PaymentService {
             const env = process.env.NODE_ENV || "development"
             const isProduction = env === "production";
             const isTest = env === "test";
-            const successUrl = isTest ? "https://example.com/success" : isProduction ? "https://martinmatarrese.github.io/tiendaderopadeportiva/payments/success" : `http://localhost:8080/tiendaderopadeportiva/payments/success`;
+            const successUrl = isTest ? "https://example.com/success" : isProduction ? "https://martinmatarrese.github.io/tiendaderopadeportiva-api/payments/success" : `http://localhost:8080/tiendaderopadeportiva/payments/success`;
             console.log("URL de éxito completa:", successUrl);
             console.log("cartId:", cartId);
             console.log("cartId es válido?", cartId && cartId !== "undefined");
@@ -26,8 +26,8 @@ class PaymentService {
             
             
             
-            const failureUrl = isTest ? "https://example.com/failure" : isProduction ? "https://martinmatarrese.github.io/tiendaderopadeportiva/payments/failure" : `http://localhost:8080/tiendaderopadeportiva/payments/failure`;
-            const pendingUrl = isTest ? "https://example.com/pending" : isProduction ? "https://martinmatarrese.github.io/tiendaderopadeportiva/pending" : `http://localhost:8080/tiendaderopadeportiva/payments/pending`;
+            const failureUrl = isTest ? "https://example.com/failure" : isProduction ? "https://martinmatarrese.github.io/tiendaderopadeportiva-api/payments/failure" : `http://localhost:8080/tiendaderopadeportiva/payments/failure`;
+            const pendingUrl = isTest ? "https://example.com/pending" : isProduction ? "https://martinmatarrese.github.io/tiendaderopadeportiva-api/pending" : `http://localhost:8080/tiendaderopadeportiva/payments/pending`;
 
             console.log("🎯 Creando preferencia para cartId:", cartId);
             console.log("📦 Productos en carrito:", cart.products);

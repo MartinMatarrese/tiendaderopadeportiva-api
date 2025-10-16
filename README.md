@@ -1,4 +1,4 @@
-# Api de Tienda de Ropa Deportiva
+# API de Tienda de Ropa Deportiva
 
 # Descripción
 Este proyecto es un servidor de un e-commerce en donde se registran los usuarios, se autenca el email con el que se registraron, se loguean y pueden agregar productos al carrito, ver los productos que agregaron, eliminarlos, crear una compra eligiendo el metodo de pago, pagarlo y te devuelve el ticket con los datos de la compra.
@@ -29,7 +29,7 @@ Para ejecutar el proyecto de manera local sigue estos pasos
 1. clonar el repositorio:
 
     ```bash
-    git clone https://github.com/MartinMatarrese/tiendaderopadeportiva/tree/main/backend
+    git clone https://github.com/MartinMatarrese/tiendaderopadeportiva-api
     ```
 
 2. Instalar las dependencias
@@ -60,7 +60,7 @@ docker run -d -p 8080:8080 martin1694/api-tienda:1.0.0
 ## Documentación de la API
 Una vez que la API esté corriendo localmente o en un contenedor docker, podes acceder a la documentación completa generada con swagger en:
 
-[http://localhost:8080/docs](http://localhost:8080/docs)
+[https://martinmatarrese.github.io/tiendaderopadeportiva-api/docs](https://martinmatarrese.github.io/tiendaderopadeportiva-api/docs)
 
 ## Autor
 Martin Matarrese
