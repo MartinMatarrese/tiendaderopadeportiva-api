@@ -1,0 +1,169 @@
+components:
+  schemas:
+    UserRegister:
+      type: object
+      properties:
+        id:
+          type: string
+          description: id del usuario
+        status:
+          type: number
+          description: Estado de la petición
+        message:
+          type: string
+          description: Mensaje según el status
+      example:
+        id: 3232jhhj232
+        status: 201
+        message: Usuario creado correctamente
+    UserLogin:
+      type: object
+      properties:
+        status:
+          type: number
+          description: Estado de la petición
+        message:
+          type: string
+          description: Mensaje según el status
+        token:
+          type: string
+          description: Token de autenticación JWT
+      example:
+        status: 200
+        message: Login OK
+        token: hajdhajsdaksd...
+    ProfilePicResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          description: Estado de la petición
+        message:
+          type: string
+          description: Mensaje según el status
+      example:
+        status: 200
+        message: Foto de perfil actualizada correctamente
+    GoogleRedirectedResponse:
+      description: Redirección de google para login
+    LogoutResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          description: Estado de la petición
+        message:
+          type: string
+          description: Mensaje según el status
+      example:
+        status: 200
+        message: Logout OK
+    ForgotPasswordResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          description: Estado de la petición
+        message:
+          type: string
+          description: Mensaje según el status
+      example:
+        status: 200
+        message: Email de recuperación enviado
+    ResetPasswordResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          description: Estado de la petición
+        message:
+          type: string
+          description: Mensaje según el status
+      example:
+        status: 200
+        message: Contraseña actualizada
+      EmailVerificationResponse:
+        type: object
+        properties:
+          success:
+            type: boolean
+            description: Mensaje de resultado de la verificación
+        example:
+          success: true
+          message: "Email verificado exitosamente. Ya puedes iniciar sesión"
+      ResendVerificationResponse:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Mensaje de confirmación de reenvío
+        example:
+          message: "Email de verificación reenviado exitosamente"
+    InternalServerError:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+      example:
+        status: 500
+        message: Error interno en el servidor
+    UnauthorizedError:
+      type: object
+      properties:
+        status:
+          type: number
+        message:
+          type: string
+      example:
+        status: 401
+        message: Usuario no encontrado o credenciales incorrectas
+    UserNotFoundError:
+      description: Usuario no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Usuario no encontrado
+    TokenError:
+      description: Token Inválido o expirado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+            example:
+              status: Error
+              message: Token Inválido o expirado
+    EmailVerificationError:
+      description: Error en verificación de email
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Descipción del error de verificación
+            example:
+              error: "token de verificación Inválido o expirado"
+    UserAlreadyVerifiedError:
+      description: Usuario ya verificado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Indica que el usuario ya esta verificado
+            example:
+              error: "El usuario ya este verificado"

@@ -1,0 +1,272 @@
+paths:
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Registro del usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Users"
+        required: true
+      responses:
+        201:
+          description: Se registra el usuario correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRegister"
+        500:
+          description: Error interno en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Logeo del usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+        required: true
+      responses:
+        200:
+          description: Login OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLogin"
+        401:
+          description: Usuario no encontrado o Credenciales incorrectas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+  /users/verify-email/:token:
+    get:
+      tags:
+        - Users
+      summary: Verificar dirección de email
+      description: Verifica la dirección de email de un usuario usando el token enviado por correo
+      prameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+          description: token de verificacion enviado por email
+      responses:
+        200:
+         description: Email verificado correctamente
+         content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailVerificationResponse"
+        400:
+          description: Token Inválido o expirado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailVerificationError"
+  /users/resend-verificacion:
+    post:
+      tags:
+        - Users
+      summary: Reenviar email de verificación
+      description: Reenvia el email de verificación a un usuario que no ha verificado su cuenta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResendVerificationRequest"
+        required: true
+      responses:
+        200:
+          description: Email de verifiación reenviado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResendVerificationResponse"
+        400:
+          description: Error en la soliciud
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/UserNotFoundError"
+                  - $ref: "#/components/schemas/UserAlreadyVerifiedError"
+              example:
+                Usuario no encontrado:
+                  value:
+                    error: "Usuario no encontrado"
+                Usuario verificado:
+                  value:
+                    error: "El usuario ya esta verificado"
+  /users/current:
+    get:
+      tags:
+        - Users
+      summary: Obtener datos del usuario actual
+      description: Retorna datos del usuario autenticado
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Datos del usuario auntenticado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        401:
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+  /users/profile-pic:
+    post:
+      tags:
+        - Users
+      summary: Subir imagen de perfil
+      description: Permite a un usuario autenticado subir su foto de perfil
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          multipart/from-data:
+            schema:
+              $ref: "#/components/schemas/ProfileRequest"
+      responses:
+        200:
+          description: Imagen de perfil actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfilePicResponse"
+        401:
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+  /users/google:
+    get:
+      tags:
+        - Autenticación
+      summary: Iniciar sesión con cuenta de google
+      description: Redirigue al usuario a la pantalla de login de Google para autenticarse.
+      responses:
+        302:
+          description: Redirección de Google para login
+        500:
+          description: Error interno en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+  /users/googlecallback:
+    get:
+      tags:
+        - Autenticación
+      summary: Callback de autenticación de Google
+      description: Ruta de retorno de Google luego de autenticar al usuario
+      responses:
+        200:
+          description: Usuario auntenticado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLogin"
+        401:
+          description: Fallo en la autenticación
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+  /users/logout:
+    post:
+      tags:
+        - Users
+      summary: Cerrar sesión
+      description: Cierra la sesión del usuario auntenticado
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Sesión cerrada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogoutResponse"
+        401:
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedError"
+  /users/forgot-password:
+    post:
+      tags:
+        - Users
+      summary: Solicitar recuperación de contraseña
+      description: Envía un email con un enlace para recuperar la contraseña del usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ForgotPasswordRequest"
+        required: true
+      responses:
+        200:
+          description: Email de recuperación enviado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForgotPasswordResponse"
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserNotFoundError"
+        500:
+          description: Error interno en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+  /users/reset-password:
+    post:
+      tags:
+        - Users
+      summary: Actualizar contraseña
+      description: Actualiza la contraseña utilizando el token de recuperación
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+      responses:
+        200:
+          description: Contraseña actualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResetPasswordResponse"
+        404:
+          description: Token Inválido o expirado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenError"
+        500:
+          description: Error interno en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
